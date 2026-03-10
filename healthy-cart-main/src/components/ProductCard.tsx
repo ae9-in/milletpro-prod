@@ -125,7 +125,10 @@ const ProductCard = ({ product }: { product: Product }) => {
           {/* Price — bold, gold-warm */}
           <span
             className="font-display text-[22px] font-bold"
-            style={{ color: "hsl(233 15% 15%)" }}
+            style={{
+              color: "hsl(41 96% 64%)",
+              textShadow: "0 1px 0 hsl(233 22% 10% / 0.18)",
+            }}
           >
             ₹{currentPrice}
           </span>

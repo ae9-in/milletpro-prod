@@ -58,3 +58,6 @@ Desktop.ini
 
 # Misc local files
 *.local
+
+# Deployment tooling
+.vercel/

@@ -48,3 +48,4 @@ healthy-cart-main/.eslintcache
 healthy-cart-main/.stylelintcache
 healthy-cart-main/*.tsbuildinfo
 healthy-cart-main/*.local
+healthy-cart-main/.vercel/

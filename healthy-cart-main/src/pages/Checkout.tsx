@@ -381,7 +381,7 @@ const Checkout = () => {
                 >
                   <MapPin className="h-4 w-4 shrink-0" style={{ color: "hsl(35 90% 55%)" }} />
                   <p className="text-[12px] leading-snug font-sans-pro" style={{ color: "hsl(233 10% 85%)" }}>
-                    We deliver across India in 3-5 business days. Free shipping on orders above Rs. 500.
+                    We deliver across India in 3-5 business days with careful dispatch and order tracking.
                   </p>
                 </div>
               </div>
@@ -524,3 +524,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+

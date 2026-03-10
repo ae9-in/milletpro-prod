@@ -271,7 +271,7 @@ const Hero = ({ heroStats }: { heroStats: { value: string; label: string }[] }) 
             className="text-[11px] font-light"
             style={{ color: "hsl(40 22% 86% / 0.28)" }}
           >
-            Free shipping on ₹500+
+            Pan-India dispatch
           </span>
         </motion.div>
       </div>
@@ -380,7 +380,7 @@ const Hero = ({ heroStats }: { heroStats: { value: string; label: string }[] }) 
 ──────────────────────────────────────────────────────────────── */
 const trust = [
   { icon: FlaskConical, title: "Science-Backed", desc: "Lab-verified nutrient profiles in every batch" },
-  { icon: Truck, title: "Free Delivery", desc: "All orders above ₹500, delivered across India" },
+  { icon: Truck, title: "Pan-India Shipping", desc: "Fresh dispatches delivered across India." },
   { icon: ShieldCheck, title: "Zero Additives", desc: "No preservatives, no artificial flavours — ever" },
 ];
 
@@ -608,3 +608,4 @@ const Index = () => {
 };
 
 export default Index;
+

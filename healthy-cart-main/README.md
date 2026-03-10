@@ -1,73 +1,170 @@
-# Welcome to your Lovable project
+# Millet Pro
 
-## Project info
+Millet Pro is a full-stack millet-based ecommerce application with a React frontend, an Express backend, MongoDB storage, JWT authentication, and Razorpay test-mode payment support.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Stack
 
-## How can I edit this code?
+- Frontend: React 18, TypeScript, Vite, React Router, Tailwind CSS, shadcn/ui
+- Backend: Node.js, Express, MongoDB, Mongoose, JWT
+- Payments: Razorpay Test Mode
+- Deployment: Vercel-compatible SPA frontend with `vercel.json` rewrites
 
-There are several ways of editing your application.
+## Project Structure
 
-**Use Lovable**
+```text
+healthy-cart-main/
+├─ backend/                  # Express API, Mongo models, auth, orders, payments
+├─ public/                   # Public frontend assets
+├─ src/                      # React app
+├─ index.html                # Vite entry HTML
+├─ package.json              # Frontend package manifest
+└─ vercel.json               # SPA route rewrites for deployment
+```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Features
 
-Changes made via Lovable will be committed automatically to this repo.
+- Product listing from backend API
+- Product search and category filtering
+- Cart and checkout flow
+- Razorpay test-mode payment flow
+- JWT-based signup and login
+- User profile with order history
+- Contact form with backend persistence
+- MongoDB-backed product and site content
 
-**Use your preferred IDE**
+## Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js 18+
+- npm
+- MongoDB Atlas or any MongoDB connection string
+- Razorpay test keys if using real Razorpay test mode
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Environment Variables
 
-Follow these steps:
+### Frontend
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Create [`.env`](./.env):
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Backend
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Create [`backend/.env`](./backend/.env):
+
+```env
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=your_mongodb_uri
+MONGODB_DB_NAME=milletpro
+JWT_SECRET=your_jwt_secret
+CLIENT_URL=http://localhost:8080
+PAYMENT_PROVIDER=razorpay
+PAYMENT_CURRENCY=INR
+MOCK_PAYMENT_OTP=1221
+RAZORPAY_KEY_ID=rzp_test_your_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+```
+
+Notes:
+- Use `PAYMENT_PROVIDER=mock` if you want the internal mock gateway instead of Razorpay.
+- Do not commit real `.env` files.
+
+## Install Dependencies
+
+### Frontend
+
+```powershell
+cd "w:\V S Code files\milletpro\healthy-cart-main"
+npm install
+```
+
+### Backend
+
+```powershell
+cd "w:\V S Code files\milletpro\healthy-cart-main\backend"
+npm install
+```
+
+## Run Locally
+
+### Start Backend
+
+```powershell
+cd "w:\V S Code files\milletpro\healthy-cart-main\backend"
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Start Frontend
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```powershell
+cd "w:\V S Code files\milletpro\healthy-cart-main"
+npm run dev
+```
 
-**Use GitHub Codespaces**
+Default local URLs:
+- Frontend: `http://localhost:8080`
+- Backend: `http://localhost:5000`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Useful Commands
 
-## What technologies are used for this project?
+### Frontend
 
-This project is built with:
+```powershell
+npm run dev
+npm run build
+npm run lint
+npm run test
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Backend
 
-## How can I deploy this project?
+```powershell
+npm run dev
+npm start
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Deployment Notes
 
-## Can I connect a custom domain to my Lovable project?
+This project uses React Router, so direct navigation to routes like `/products` or `/about` needs an SPA rewrite in production.
 
-Yes, you can!
+That is handled by [`vercel.json`](./vercel.json):
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Without this rewrite, deployed routes can return `404` on refresh or direct access.
+
+## Payment Notes
+
+- Razorpay is configured for test mode
+- Browser extensions like ad blockers or Brave Shields can interfere with Razorpay scripts
+- If payment scripts are blocked, disable privacy blockers for local testing
+
+## Security
+
+- Keep `backend/.env` and root `.env` private
+- Rotate any secrets that were ever pushed or exposed
+- Use a strong `JWT_SECRET`
+
+## Status
+
+The current codebase has:
+
+- flattened project structure
+- backend-driven product catalog
+- SPA route rewrites for deployment
+- restored backend product image serving
+
+## License
+
+Private project.
