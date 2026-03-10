@@ -62,10 +62,18 @@ export async function apiFetch<T = unknown>(path: string, options: RequestOption
     throw new Error(message);
   }
 
-  const data = (await response.json().catch(() => ({}))) as { message?: string };
+  const contentType = response.headers.get("content-type") || "";
+  const isJsonResponse = contentType.includes("application/json");
+  const data = isJsonResponse
+    ? ((await response.json().catch(() => ({}))) as { message?: string })
+    : {};
 
   if (!response.ok) {
     throw new Error(data.message || "Request failed.");
+  }
+
+  if (!isJsonResponse) {
+    throw new Error("API returned a non-JSON response. Check your backend URL or deployment rewrites.");
   }
 
   return data as T;

@@ -19,18 +19,20 @@ export function useCatalog() {
     async function loadCatalog() {
       try {
         const data = await apiFetch<CatalogResponse>("/products");
+        const safeProducts = Array.isArray(data?.products) ? data.products : [];
+        const safeCategories = Array.isArray(data?.categories) ? data.categories : [];
 
         if (cancelled) {
           return;
         }
 
         setProducts(
-          data.products.map((product) => ({
+          safeProducts.map((product) => ({
             ...product,
             image: resolveApiUrl(product.image),
           })),
         );
-        setCategories(data.categories);
+        setCategories(safeCategories);
         setError(null);
       } catch (loadError) {
         if (!cancelled) {
