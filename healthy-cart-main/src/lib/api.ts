@@ -1,4 +1,6 @@
-const API_BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) || "http://localhost:5000/api";
+const API_BASE_URL =
+  (import.meta.env.VITE_API_URL as string | undefined) ||
+  (import.meta.env.DEV ? "http://localhost:5000/api" : "/api");
 
 const AUTH_TOKEN_KEY = "millet-pro-token";
 
@@ -45,10 +47,20 @@ export async function apiFetch<T = unknown>(path: string, options: RequestOption
     }
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers,
+    });
+  } catch (error) {
+    const message =
+      error instanceof TypeError
+        ? "Unable to reach the API. Check your backend URL or browser blocker settings."
+        : "Request failed.";
+    throw new Error(message);
+  }
 
   const data = (await response.json().catch(() => ({}))) as { message?: string };
 
