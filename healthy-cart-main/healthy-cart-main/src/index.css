@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Millet Pro · Premium Color System ─────────────────────── */
+
+    /* Canvas — matte navy blue */
+    --background: 233 22% 35%;
+    --foreground: 233 15% 95%;
+    /* light navy text on background */
+
+    /* Card — soft slate-ish blue, premium feel */
+    --card: 233 18% 22%;
+    --card-foreground: 233 10% 90%;
+
+    --popover: 233 18% 22%;
+    --popover-foreground: 233 10% 90%;
+
+    /* Primary — deep matte navy for buttons */
+    --primary: 233 55% 17%;
+    --primary-foreground: 233 10% 94%;
+
+    /* Secondary — muted slate navy */
+    --secondary: 233 14% 48%;
+    --secondary-foreground: 233 25% 92%;
+
+    /* Muted */
+    --muted: 233 12% 40%;
+    --muted-foreground: 233 18% 75%;
+
+    /* Accent — vibrant grain orange for CTAs, pops on matte navy */
+    --accent: 35 90% 55%;
+    --accent-foreground: 233 28% 12%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 233 10% 94%;
+
+    --border: 233 14% 32%;
+    --input: 233 14% 35%;
+    --ring: 40 45% 65%;
+
+    --radius: 0.75rem;
+    /* 12px — premium rounded */
+
+    /* ── Custom semantic tokens ────────────────────────────────── */
+    /* Cream text for anything on a green background */
+    --cream: 43 28% 94%;
+    /* #F3F1EA */
+    --cream-text: 43 25% 92%;
+    /* #F0EDE5 – primary text on green */
+    --cream-text-muted: 43 18% 72%;
+    /* muted text on green */
+
+    /* Section colours */
+    --sage-light: 233 14% 45%;
+    --sage-deep: 233 25% 15%;
+
+    /* Navy headings on cream cards */
+    --olive-dark: 233 25% 12%;
+    /* rich dark navy */
+    --olive-mid: 233 12% 28%;
+    /* body text on card */
+    --olive-muted: 233 8% 45%;
+    /* subdued label text */
+
+    /* Vibrant grain gold / wheat for price and stars */
+    --gold: 45 90% 55%;
+    /* vibrant gold */
+    --gold-pale: 45 75% 75%;
+    /* subtle wheat tint */
+
+    --success: 160 35% 40%;
+    --warning: 38 88% 52%;
+  }
+
+  .dark {
+    --background: 88 22% 12%;
+    --foreground: 43 25% 90%;
+    --card: 88 16% 17%;
+    --card-foreground: 43 25% 90%;
+    --popover: 88 16% 17%;
+    --popover-foreground: 43 25% 90%;
+    --primary: 76 38% 58%;
+    --primary-foreground: 88 22% 10%;
+    --secondary: 88 14% 22%;
+    --secondary-foreground: 43 18% 82%;
+    --muted: 88 10% 20%;
+    --muted-foreground: 43 12% 58%;
+    --accent: 76 40% 60%;
+    --accent-foreground: 88 22% 10%;
+    --destructive: 0 60% 42%;
+    --destructive-foreground: 43 25% 90%;
+    --border: 88 12% 22%;
+    --input: 88 12% 22%;
+    --ring: 76 40% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Headings use Playfair Display — premium serif */
+  h1,
+  h2,
+  h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+
+  /* ── Typography helpers ───────────────────────────────────────── */
+  .font-display {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .font-sans-pro {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .tracking-headline {
+    letter-spacing: -0.04em;
+  }
+
+  /* ── Cream text for green-background sections ─────────────────── */
+  .text-cream {
+    color: hsl(var(--cream-text));
+  }
+
+  .text-cream-muted {
+    color: hsl(var(--cream-text-muted));
+  }
+
+  /* ── Olive text for cream-background cards ────────────────────── */
+  .text-olive-dark {
+    color: hsl(var(--olive-dark));
+  }
+
+  .text-olive-mid {
+    color: hsl(var(--olive-mid));
+  }
+
+  .text-olive-muted {
+    color: hsl(var(--olive-muted));
+  }
+
+  /* ── Gold / wheat accent ──────────────────────────────────────── */
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  /* ── Section backgrounds ──────────────────────────────────────── */
+  .bg-sage-light {
+    background-color: hsl(var(--sage-light));
+  }
+
+  .bg-sage-deep {
+    background-color: hsl(var(--sage-deep));
+  }
+
+  .bg-cream-card {
+    background-color: hsl(var(--cream));
+  }
+
+  .bg-green-gradient {
+    background: linear-gradient(160deg,
+        hsl(233 22% 38%) 0%,
+        hsl(233 25% 24%) 100%);
+  }
+
+  /* ── Luxury card ──────────────────────────────────────────────── */
+  .card-premium {
+    background-color: hsl(var(--card));
+    /* warm, low-contrast shadow — never harsh */
+    box-shadow:
+      0 2px 8px hsl(233 18% 10% / 0.15),
+      0 8px 28px hsl(233 18% 10% / 0.12);
+    border-radius: 16px;
+    border: 1px solid hsl(233 15% 28%);
+  }
+
+  .card-premium:hover {
+    box-shadow:
+      0 4px 16px hsl(233 18% 10% / 0.20),
+      0 16px 40px hsl(233 18% 10% / 0.15);
+  }
+
+  /* ── Noise / texture overlays ─────────────────────────────────── */
+  .noise-texture {
+    position: relative;
+  }
+
+  .noise-texture::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 220px;
+    opacity: 0.038;
+    mix-blend-mode: overlay;
+  }
+
+  /* ── Field / agricultural patterns ───────────────────────────── */
+  .field-pattern {
+    background-image: repeating-linear-gradient(168deg,
+        hsl(233 22% 28% / 0.45) 0px,
+        hsl(233 22% 28% / 0.45) 1px,
+        transparent 1px,
+        transparent 22px);
+  }
+
+  .sow-pattern {
+    background-image: radial-gradient(circle,
+        hsl(233 20% 28% / 0.28) 1px,
+        transparent 1px);
+    background-size: 20px 28px;
+  }
+
+  .horizon-lines {
+    background-image: repeating-linear-gradient(180deg,
+        hsl(233 16% 35% / 0.22) 0px,
+        hsl(233 16% 35% / 0.22) 1px,
+        transparent 1px,
+        transparent 18px);
+  }
+
+  /* ── Panel helpers ────────────────────────────────────────────── */
+  .panel-cream {
+    background-color: hsl(var(--cream));
+    color: hsl(var(--olive-dark));
+  }
+}

@@ -1,0 +1,16 @@
+import jwt from "jsonwebtoken";
+import { env } from "../config/env.js";
+
+export function generateToken(user) {
+  return jwt.sign(
+    {
+      sub: user._id.toString(),
+      email: user.email,
+      isAdmin: user.isAdmin,
+    },
+    env.jwtSecret,
+    {
+      expiresIn: "7d",
+    },
+  );
+}
