@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "https://milletpro-prod.onrender.com/api/$1"
+    },
+    {
+      "source": "/images/(.*)",
+      "destination": "https://milletpro-prod.onrender.com/images/$1"
+    },
+    {
       "source": "/((?!api/|assets/|.*\\..*).*)",
       "destination": "/index.html"
     }
