@@ -60,7 +60,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         {/* Product name — Playfair Display serif */}
         <h3
           className="font-display text-[17px] font-semibold leading-[1.3]"
-          style={{ color: "hsl(233 15% 15%)" }}   /* deep navy */
+          style={{ color: "hsl(40 35% 96%)" }}   /* warm ivory for contrast */
         >
           {product.name}
         </h3>
