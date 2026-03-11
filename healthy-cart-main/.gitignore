@@ -16,6 +16,11 @@ backend/coverage/
 backend/.env
 backend/.env.*
 !backend/.env.example
+.envrc
+backend/.envrc
+**/*.pem
+**/*.key
+**/*.crt
 
 # Logs
 logs/

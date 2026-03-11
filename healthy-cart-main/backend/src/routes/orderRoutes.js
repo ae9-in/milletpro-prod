@@ -1,1 +1,116 @@
-import express from "express";import { asyncHandler } from "../utils/asyncHandler.js";import { requireAuth } from "../middleware/auth.js";import { Order } from "../models/Order.js";import { getReadModel } from "../config/db.js";const router = express.Router();router.post(  "/",  requireAuth,  asyncHandler(async (req, res) => {    const {      items,      subtotal,      gst,      total,      paymentMethod = "razorpay",      paymentGateway = "mock",      paymentStatus = "paid",      paymentReference,      paymentSignature,      mockPaymentMethod,      deliveryAddress,      phone,      razorpayOrderId,      razorpayPaymentId,    } = req.body;    if (!Array.isArray(items) || items.length === 0) {      return res.status(400).json({ message: "Order items are required." });    }    if (!deliveryAddress || !phone) {      return res.status(400).json({ message: "Delivery address and phone are required." });    }    const order = await Order.create({      user: req.user._id,      items,      subtotal,      gst,      total,      paymentMethod,      paymentGateway,      paymentStatus,      paymentReference: paymentReference || null,      paymentSignature: paymentSignature || null,      mockPaymentMethod: mockPaymentMethod || null,      deliveryAddress,      phone,      razorpayOrderId: razorpayOrderId || null,      razorpayPaymentId: razorpayPaymentId || null,    });    res.status(201).json({      order: {        id: order._id.toString(),        status: order.status,        createdAt: order.createdAt,      },    });  }),);router.get(  "/my",  requireAuth,  asyncHandler(async (req, res) => {    const OrderRead = getReadModel("Order");    const orders = await OrderRead.find({ user: req.user._id }).sort({ createdAt: -1 });    res.json({      orders: orders.map((order) => ({        id: order._id.toString(),        items: order.items,        subtotal: order.subtotal,        gst: order.gst,        total: order.total,        paymentMethod: order.paymentMethod,        paymentGateway: order.paymentGateway,        paymentStatus: order.paymentStatus,        paymentReference: order.paymentReference,        paymentSignature: order.paymentSignature,        mockPaymentMethod: order.mockPaymentMethod,        status: order.status,        deliveryAddress: order.deliveryAddress,        phone: order.phone,        razorpayOrderId: order.razorpayOrderId,        razorpayPaymentId: order.razorpayPaymentId,        createdAt: order.createdAt,      })),    });  }),);export default router;
+import express from "express";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { requireAuth } from "../middleware/auth.js";
+import { Order } from "../models/Order.js";
+import { getReadModel } from "../config/db.js";
+import { User } from "../models/User.js";
+import { sendOrderConfirmationEmail } from "../services/emailService.js";
+
+const router = express.Router();
+
+router.post(
+  "/",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const {
+      items,
+      subtotal,
+      gst,
+      total,
+      paymentMethod = "razorpay",
+      paymentGateway = "mock",
+      paymentStatus = "paid",
+      paymentReference,
+      paymentSignature,
+      mockPaymentMethod,
+      deliveryAddress,
+      phone,
+      razorpayOrderId,
+      razorpayPaymentId,
+    } = req.body;
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ message: "Order items are required." });
+    }
+
+    if (!deliveryAddress || !phone) {
+      return res.status(400).json({ message: "Delivery address and phone are required." });
+    }
+
+    const order = await Order.create({
+      user: req.user._id,
+      items,
+      subtotal,
+      gst,
+      total,
+      paymentMethod,
+      paymentGateway,
+      paymentStatus,
+      paymentReference: paymentReference || null,
+      paymentSignature: paymentSignature || null,
+      mockPaymentMethod: mockPaymentMethod || null,
+      deliveryAddress,
+      phone,
+      razorpayOrderId: razorpayOrderId || null,
+      razorpayPaymentId: razorpayPaymentId || null,
+    });
+
+    User.findById(req.user._id)
+      .select("fullName email")
+      .then((user) => {
+        if (!user) {
+          return;
+        }
+
+        return sendOrderConfirmationEmail(order, user).catch((error) => {
+          const message = error instanceof Error ? error.message : "Unknown email error";
+          console.error(`[Orders] Email send failed (non-blocking): ${message}`);
+        });
+      })
+      .catch((error) => {
+        const message = error instanceof Error ? error.message : "Unknown user lookup error";
+        console.error(`[Orders] Could not look up user for email: ${message}`);
+      });
+
+    res.status(201).json({
+      order: {
+        id: order._id.toString(),
+        status: order.status,
+        createdAt: order.createdAt,
+      },
+    });
+  }),
+);
+
+router.get(
+  "/my",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const OrderRead = getReadModel("Order");
+    const orders = await OrderRead.find({ user: req.user._id }).sort({ createdAt: -1 });
+
+    res.json({
+      orders: orders.map((order) => ({
+        id: order._id.toString(),
+        items: order.items,
+        subtotal: order.subtotal,
+        gst: order.gst,
+        total: order.total,
+        paymentMethod: order.paymentMethod,
+        paymentGateway: order.paymentGateway,
+        paymentStatus: order.paymentStatus,
+        paymentReference: order.paymentReference,
+        paymentSignature: order.paymentSignature,
+        mockPaymentMethod: order.mockPaymentMethod,
+        status: order.status,
+        deliveryAddress: order.deliveryAddress,
+        phone: order.phone,
+        razorpayOrderId: order.razorpayOrderId,
+        razorpayPaymentId: order.razorpayPaymentId,
+        createdAt: order.createdAt,
+      })),
+    });
+  }),
+);
+
+export default router;

@@ -13,6 +13,11 @@ healthy-cart-main/.env.*
 healthy-cart-main/backend/.env
 healthy-cart-main/backend/.env.*
 !healthy-cart-main/backend/.env.example
+healthy-cart-main/.envrc
+healthy-cart-main/backend/.envrc
+healthy-cart-main/**/*.pem
+healthy-cart-main/**/*.key
+healthy-cart-main/**/*.crt
 
 healthy-cart-main/logs/
 healthy-cart-main/*.log
