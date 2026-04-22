@@ -303,7 +303,9 @@ const Checkout = () => {
                       id="phone"
                       label="Phone Number"
                       value={phone}
-                      onChange={setPhone}
+                      onChange={(val) => {
+                        if (/^\d*$/.test(val)) setPhone(val);
+                      }}
                       placeholder="+91 XXXXX XXXXX"
                       type="tel"
                       icon={Phone}
@@ -349,7 +351,9 @@ const Checkout = () => {
                       id="city"
                       label="City"
                       value={city}
-                      onChange={setCity}
+                      onChange={(val) => {
+                        if (/^[a-zA-Z\s]*$/.test(val)) setCity(val);
+                      }}
                       placeholder="e.g. Bangalore"
                       icon={Home}
                       required
@@ -358,7 +362,9 @@ const Checkout = () => {
                       id="state"
                       label="State"
                       value={state}
-                      onChange={setState}
+                      onChange={(val) => {
+                        if (/^[a-zA-Z\s]*$/.test(val)) setState(val);
+                      }}
                       placeholder="e.g. Karnataka"
                       required
                     />
@@ -366,7 +372,9 @@ const Checkout = () => {
                       id="pincode"
                       label="Pincode / ZIP"
                       value={pincode}
-                      onChange={setPincode}
+                      onChange={(val) => {
+                        if (/^\d*$/.test(val)) setPincode(val);
+                      }}
                       placeholder="560001"
                       type="text"
                       inputMode="numeric"

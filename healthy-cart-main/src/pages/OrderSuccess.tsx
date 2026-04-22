@@ -32,6 +32,9 @@ const OrderSuccess = () => {
         <Button asChild>
           <Link to="/products">Continue Shopping</Link>
         </Button>
+        <Button asChild variant="outline">
+          <Link to="/orders">View Orders</Link>
+        </Button>
       </div>
     </main>
   );

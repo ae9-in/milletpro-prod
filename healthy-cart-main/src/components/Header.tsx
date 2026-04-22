@@ -88,6 +88,13 @@ const Header = () => {
               >
                 <User className="h-[17px] w-[17px]" />
               </Link>
+              <Link
+                to="/orders"
+                aria-label="Orders"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-[hsl(40_35%_96%/0.7)] transition-colors hover:bg-white/10 hover:text-[hsl(40_35%_96%)]"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-package"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              </Link>
               <button
                 onClick={handleSignOut}
                 aria-label="Sign Out"
@@ -164,6 +171,13 @@ const Header = () => {
                   className="py-2.5 text-[14px] font-medium text-[hsl(40_35%_96%/0.55)] transition-colors hover:text-[hsl(40_35%_96%)]"
                 >
                   Profile
+                </Link>
+                <Link
+                  to="/orders"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-2.5 text-[14px] font-medium text-[hsl(40_35%_96%/0.55)] transition-colors hover:text-[hsl(40_35%_96%)]"
+                >
+                  Orders
                 </Link>
                 <button
                   type="button"

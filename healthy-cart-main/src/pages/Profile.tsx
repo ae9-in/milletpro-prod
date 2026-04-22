@@ -32,10 +32,7 @@ const emptyProfile: AccountProfile = {
   createdAt: undefined,
 };
 
-const sectionTabs = [
-  { id: "details", label: "Details" },
-  { id: "orders", label: "Order History" },
-] as const;
+
 
 const Profile = () => {
   const { user, loading } = useAuth();
@@ -44,7 +41,6 @@ const Profile = () => {
   const [orders, setOrders] = useState<AccountProfileResponse["orders"]>([]);
   const [pageLoading, setPageLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeSection, setActiveSection] = useState<(typeof sectionTabs)[number]["id"]>("details");
 
   useEffect(() => {
     if (!user) {
@@ -141,30 +137,6 @@ const Profile = () => {
           </p>
         ) : (
           <>
-            <div className="mt-10 flex flex-wrap gap-3">
-              {sectionTabs.map((tab) => {
-                const selected = activeSection === tab.id;
-
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveSection(tab.id)}
-                    className="rounded-full px-5 py-2.5 text-sm font-semibold transition-all"
-                    style={{
-                      background: selected ? "linear-gradient(135deg, hsl(35 92% 58%) 0%, hsl(45 95% 65%) 100%)" : "hsl(233 20% 18% / 0.78)",
-                      color: selected ? "hsl(233 25% 12%)" : "hsl(43 25% 92%)",
-                      border: selected ? "none" : "1px solid hsl(233 18% 30%)",
-                      boxShadow: selected ? "0 10px 24px hsl(35 85% 18% / 0.28)" : "none",
-                    }}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {activeSection === "details" ? (
               <div className="mt-8 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
                 <div className="space-y-6">
                   <div className="p-6 md:p-8" style={panelStyle}>
@@ -303,63 +275,6 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-            ) : (
-              <div className="mt-8">
-                <div className="p-6 md:p-8" style={panelStyle}>
-                  <h2 className="font-display text-[1.9rem] font-semibold" style={{ color: "hsl(43 25% 94%)" }}>
-                    Order history
-                  </h2>
-                  <p className="mt-1 text-sm" style={{ color: "hsl(43 18% 84% / 0.58)" }}>
-                    Review your previous purchases and current order status.
-                  </p>
-
-                  <div className="mt-6 space-y-4">
-                    {orders.length === 0 ? (
-                      <p className="text-sm" style={{ color: "hsl(43 18% 84% / 0.58)" }}>
-                        No orders yet.
-                      </p>
-                    ) : (
-                      orders.map((order) => (
-                        <div
-                          key={order.id}
-                          className="rounded-[20px] border p-5"
-                          style={{ borderColor: "hsl(233 18% 30%)", background: "hsl(233 20% 16% / 0.65)" }}
-                        >
-                          <div className="flex flex-wrap items-start justify-between gap-4">
-                            <div>
-                              <p className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: "hsl(43 18% 84% / 0.46)" }}>
-                                Order #{order.id.slice(0, 8)}
-                              </p>
-                              <p className="mt-2 text-sm" style={{ color: "hsl(43 25% 92%)" }}>
-                                {format(new Date(order.createdAt), "dd MMM yyyy")}
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-sm font-semibold capitalize" style={{ color: "hsl(35 90% 55%)" }}>
-                                {order.status}
-                              </p>
-                              <p className="mt-1 text-sm" style={{ color: "hsl(43 18% 84% / 0.58)" }}>
-                                Rs. {order.total}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="mt-4 space-y-2">
-                            {order.items.map((item) => (
-                              <div key={`${order.id}-${item.id}-${item.weight}`} className="flex justify-between gap-4 text-sm">
-                                <span style={{ color: "hsl(43 25% 92%)" }}>
-                                  {item.name} x {item.quantity}
-                                </span>
-                                <span style={{ color: "hsl(43 18% 84% / 0.58)" }}>Rs. {item.price * item.quantity}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
           </>
         )}
       </section>
