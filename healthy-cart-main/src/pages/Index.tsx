@@ -5,6 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import milletHero from "@/assets/millet-hero-no-bg.png";
 import { useCatalog } from "@/hooks/useCatalog";
 import type { Product } from "@/types/product";
+import JsonLd from "@/components/JsonLd";
 
 /* ────────────────────────────────────────────────────────────────
    Inline SVG: perspective crop-rows for non-hero sections
@@ -397,8 +398,56 @@ const Index = () => {
   const { products, loading, error } = useCatalog();
   const featured = products.filter((p) => p.isBestSeller);
 
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.milletpro.in/#organization",
+        "name": "Millet Pro",
+        "url": "https://www.milletpro.in/",
+        "logo": "https://www.milletpro.in/images/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+91-8431119696",
+          "contactType": "customer service",
+          "areaServed": "IN",
+          "availableLanguage": ["en", "kn", "hi"]
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "48, Church St, Shanthala Nagar, Ashok Nagar",
+          "addressLocality": "Bengaluru",
+          "addressRegion": "Karnataka",
+          "postalCode": "560001",
+          "addressCountry": "IN"
+        },
+        "sameAs": [
+          "https://www.instagram.com/milletpro.in",
+          "https://twitter.com/MilletPro",
+          "https://www.facebook.com/milletpro"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.milletpro.in/#website",
+        "name": "Millet Pro",
+        "url": "https://www.milletpro.in/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://www.milletpro.in/products?search={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  };
+
   return (
     <main className="overflow-x-hidden">
+      <JsonLd data={homeSchema} />
 
       {/* ═══════════════════════════════════════════════════════
           HERO — green canvas + field rows

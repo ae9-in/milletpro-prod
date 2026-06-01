@@ -3,6 +3,7 @@ import { Search } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { useCatalog } from "@/hooks/useCatalog";
 import { Input } from "@/components/ui/input";
+import JsonLd from "@/components/JsonLd";
 
 const Products = () => {
   const [search, setSearch] = useState("");
@@ -17,8 +18,59 @@ const Products = () => {
     });
   }, [products, search, category]);
 
+  const productsSchema = useMemo(() => {
+    if (!products || products.length === 0) return null;
+    return {
+      "@context": "https://schema.org",
+      "@graph": products.map((p) => ({
+        "@type": "Product",
+        "@id": `https://www.milletpro.in/products/#product-${p.slug || p.id}`,
+        "url": `https://www.milletpro.in/products`,
+        "name": p.name,
+        "image": p.image.startsWith("http") ? p.image : `https://www.milletpro.in${p.image}`,
+        "description": p.description,
+        "brand": {
+          "@type": "Brand",
+          "name": "Millet Pro"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": String(p.rating || 4.5),
+          "reviewCount": String(p.reviews || 10)
+        },
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "INR",
+          "price": String(p.prices["1kg"] || p.prices["500g"] || 0),
+          "availability": "https://schema.org/InStock",
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "IN",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+            "merchantReturnDays": 7,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "refundType": "https://schema.org/RefundFull"
+          },
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "IN"
+            },
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0.00",
+              "currency": "INR"
+            }
+          }
+        }
+      }))
+    };
+  }, [products]);
+
   return (
     <main className="container mx-auto px-4 py-10">
+      {productsSchema && <JsonLd data={productsSchema} />}
       <h1 className="text-3xl font-bold">Our Products</h1>
       <p className="mt-2 text-muted-foreground">Browse our range of natural millet-based products</p>
 

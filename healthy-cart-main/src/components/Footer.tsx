@@ -43,6 +43,7 @@ const Footer = () => {
             <div className="flex flex-col gap-2.5">
               {[
                 { to: "/products", label: "Products" },
+                { to: "/blog", label: "Blog" },
                 { to: "/about", label: "About" },
                 { to: "/contact", label: "Contact" },
               ].map((linkItem) => (

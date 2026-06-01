@@ -12,6 +12,7 @@ import logoText from "../assets/milletprolettering.png";
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
+  { to: "/blog", label: "Blog" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];
